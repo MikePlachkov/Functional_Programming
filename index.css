@@ -1,0 +1,79 @@
+header{
+	width: 100%;
+	position: fixed;
+    display: flex;
+    background-color: #7894bf;
+    color: #fff;
+    padding: 24px 48px;
+    margin: 0 0 24px;
+}
+
+.title{
+	padding-top: 144px;
+    text-align: center;
+}
+
+.student{
+	text-align: center;
+}
+
+.lab_works{
+	display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 860px;
+    padding-right: 50px;
+}
+
+.list{
+	display: flex;
+    flex-direction: column;
+    max-width: 600px;
+    font-weight: 200;
+    font-size: 24px;
+    list-style: none;
+}
+.lab{
+	background-color: #263844;
+    margin: 0 0 24px;
+    border-radius: 10px;
+
+}
+
+.a{
+	display: block;
+    padding: 12px 24px;
+    color: #fff;
+    text-decoration: none;
+}
+
+.lab_work{
+	padding-top: 144px;
+    padding-bottom: 144px;
+    line-height: 30px;
+}
+.lab_title{
+	text-align: center;
+}
+.lab_inner{
+	padding-left: 100px;
+    padding-right: 100px;
+}
+.head{
+	padding-top: 144px;
+    text-align: center;
+    text-decoration:none;
+    color: #fff; 
+}
+p{
+	font-size: 16px;
+}
+
+.img{
+    height: 80px;
+}
+
+.img_back{
+    height: 40px;
+    margin-right: 10px; 
+}
