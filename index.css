@@ -6,6 +6,7 @@ header{
     color: #fff;
     padding: 24px 48px;
     margin: 0 0 24px;
+    z-index: 1;
 }
 
 .title{
