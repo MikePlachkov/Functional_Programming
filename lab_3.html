@@ -119,6 +119,30 @@
 						  (exact->inexact(* (/ 1 n)(sq_h 0 0)))
 						)
 
+						(define (square_right n) ; Метод правих прямокутників
+						  (define (sq_h i sum)
+						    (let ((next_sum (+ sum (f_in (* i (/ 1 n))))))
+						      (if (= i n)
+						          next_sum
+						          (sq_h (+ i 1) next_sum)
+						        )
+						        )
+						    )
+						  (exact->inexact(* (/ 1 n)(sq_h 1 0)))
+						)
+
+						(define (square_mean n) ; Метод середніх прямокутників
+						  (define (sq_h i sum)
+						    (let ((next_sum (+ sum (f_in (/(+(* (- i 1)(/ 1 n))(* i (/ 1 n))) 2)))))
+						      (if (= i n)
+						          next_sum
+						          (sq_h (+ i 1) next_sum)
+						        )
+						        )
+						    )
+						  (exact->inexact(* (/ 1 n)(sq_h 1 0)))
+						)
+
 						(define (square_trape n) ; Метод трапецій
 						  (define (sq_h i sum)
 						    (let ((next_sum (+ sum (f_in (* i (/ 1 n))))))
@@ -134,7 +158,9 @@
 						(define (task_2 n) ; Демонстрації результатів
 						  (let (
 						        (s_trape (square_trape n))
-						        (s_left (square_left n)))
+						        (s_left (square_left n))
+						        (s_right (square_right n))
+        						(s_mean (square_mean n)))
 						    (display "n: ")
 						    (displayln n)
 						    (display "Метод трапецій: ")
@@ -142,6 +168,11 @@
 						    (display "\n")
 						    (display "Метод лівих прямокутників: ")
 						    (displayln s_left)
+						    (display "Метод правих прямокутників: ")
+						    (display s_right)
+						    (display "\n")
+						    (display "Метод середніх прямокутників: ")
+						    (displayln s_mean)
 						      )
 						  )
 						(task_2 10)
