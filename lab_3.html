@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Функціональне програмування</title>
+	<link rel="stylesheet" href="index.css">
+</head>
+<body>
+	<header>
+		<a href="index.html" class="img_back"><img src="93634.png"  class="img"></a>
+		<h1><a href="index.html" class="head">Laboratory Works</a></h1>
+	</header>
+	<div class="lab_work">
+		<div class="lab_title">
+			<h3>Лабораторна робота 3. <br>
+				Форми lambda та let, вираз присвоєння set! для розв’язання нелінійних рівнянь та чисельного інтегрування функцій<br>
+				Варіант 19
+			
+			</h3>
+		</div>
+
+		<div class="lab_inner">
+			<div class="contents">
+				<h4>Зміст</h4>
+				<ul>
+					<li><a class="navigation" href="#target">Мета</a></li>
+					<li><a class="navigation" href="#ide">Вибір середовища та мови функціонального програмування</a></li>
+					<li><a class="navigation" href="#task_1">Завдання 1</a> 
+						<ul>
+							<li><a class="navigation" href="#code_1">Код програми</a></li>
+							<li><a class="navigation" href="#result_1">Результати роботи</a></li>
+						</ul>
+					</li>
+					<li><a class="navigation" href="#task_2">Завдання 2</a> 
+						<ul>
+							<li><a class="navigation" href="#code_2">Код програми</a></li>
+							<li><a class="navigation" href="#result_2">Результати роботи</a></li>
+						</ul>
+					</li>
+					<li><a class="navigation" href="#conclusion">Висновки</a></li>
+				</ul>
+			</div>
+
+			<p id="target"><b>Мета:</b>  Розв’язати нелінійні рівняння та здійснити чисельне інтегрування функцій наближеними методами, використовуючи мови функціонального програмування та lambda, let та set! форми.</p>
+
+			<p id="ide"><b>Вибір середовища та мови функціонального програмування</b></p>
+
+			<p>Для виконання лабораторної роботи було обрано мову Racket. У якості IDE було обрано онлайн компілятор Jdoodle, через простоту та зручность.</p>
+		
+			<h4 id="task_1">Завдання 1</h4>
+
+			<p>
+				Знайти корені нелінійного рівняння виду 3^x - 5x + 2 = 0. Пошук наближеного значення хоча б одного кореня рівняння f(x) = 0 на відрізку [a; b] здійснювати методами перебором та бісекції. Значення a, b інтервалу вибрати самостійно. Порівняти результати розв’язків двома методами. <br>
+			</p>
+			<h4 id="code_1">Код програми</h4>
+
+			<div class="code">
+				<pre>
+					<code>
+						; Завдання № 1
+						(define f (lambda(x)(- (* 3 x) (+ (* 5 x) 2)))) ; Функція -3^x-5x+2
+
+						(define (func_iter err a b); Методом перебору
+						  (define (func_iter_h a)
+						      (let ((next (f a)))
+						        (cond ((> a b) (- a err))
+						               ((< next err) a)
+						              (else (func_iter_h (+ a err)))
+						            )
+						        )
+						    )
+						  (func_iter_h a)
+						)
+
+						(define (task_1 err_iter err_cho a b) ; Функція демонстрації результатів
+						  (let ((result_iter (func_iter err_iter a b)))
+						    (displayln "Метод\t\t\tx\t\tf(x)")
+						    (display "Перебору: ")
+						    (display result_iter)
+						    (display "\t")
+						    (displayln (f result_iter))
+						    (display "\t")
+						      )
+						  )
+
+						(task_1 0.001 0.001 -10 10)
+					</code>
+				</pre>
+			</div>
+
+
+			<div id="result_1" class="result">
+				<h4>Результати виконання коду програми</h4>
+				<img src="res_task1_3.png">
+				<h4></h4>
+			</div>
+
+			<h4 id="task_2">Завдання 2</h4>
+
+			<p>
+				Написати процедури для обчислити інтеграла за формулами прямокутників і трапецій. Порівняти результати обчислення. <br>
+				<img src="task2_3.png"> <br>
+			</p>
+			<h4 id="code_2">Код програми</h4>
+
+			<div class="code">
+				<pre>
+					<code>
+						(define f_in (lambda (x)(/ (log(+ 1 (expt x 2))) (+ 1 (* x 2))))) ;
+
+						(define (square_left n) ; Метод лівих прямокутників
+						  (define (sq_h i sum)
+						    (let ((next_sum (+ sum (f_in (* i (/ 1 n))))))
+						      (if (= i (- n 1))
+						          next_sum
+						          (sq_h (+ i 1) next_sum)
+						        )
+						        )
+						    )
+						  (exact->inexact(* (/ 1 n)(sq_h 0 0)))
+						)
+
+						(define (square_trape n) ; Метод трапецій
+						  (define (sq_h i sum)
+						    (let ((next_sum (+ sum (f_in (* i (/ 1 n))))))
+						      (if (= i (- n 1))
+						          next_sum
+						          (sq_h (+ i 1) next_sum)
+						        )
+						        )
+						    )
+						  (exact->inexact(* (/ 1 n)(+ (/ (+ (f_in 0) (f_in n)))(sq_h 1 0))))
+						)
+
+						(define (task_2 n) ; Демонстрації результатів
+						  (let (
+						        (s_trape (square_trape n))
+						        (s_left (square_left n)))
+						    (display "n: ")
+						    (displayln n)
+						    (display "Метод трапецій: ")
+						    (display s_trape)
+						    (display "\n")
+						    (display "Метод лівих прямокутників: ")
+						    (displayln s_left)
+						      )
+						  )
+						(task_2 10)
+
+					</code>
+				</pre>
+			</div>
+			
+			<div id="result_2" class="result">
+				<h4>Результати виконання коду програми</h4>
+				<img src="res_task2_3.png">
+			</div>
+
+			<h4 id="conclusion">Висновки</h4>
+
+			<p>В лабораторній роботі №3 було реалізовано програму на мові Racket у середовищі Jdoodle, що знаходить розв'язки нелінійного рівняння методом перебору; також реалізовано програму, що обчислює інтеграл методами лівих прямокутників та трапецій</p>
+		</div>
+
+	</div>
+
+</body>
+</html>
