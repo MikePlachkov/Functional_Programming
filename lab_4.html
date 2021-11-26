@@ -117,9 +117,11 @@
 				<pre>
 					<code>
 		
-						(define-struct student (name grade))
-					
+						(define students (name grade))
 						
+						(map (students(student1("Adrian" 95)))
+						(map (students(student2("Brad" 65)))
+						(map (students(student3("Charlie" 87)))
 						 
 						(define student* (list student1 student2 student3))
 
@@ -139,7 +141,7 @@
 						  (cond
 						    [(empty? students) empty]
 						    [(cons? students)
-						     (cons (adjust-student-grade (first students) -20)
+						     (cons (adjust-student-grade (first students) -1)
 						           (tough-love (rest students)))]))
 						 
 						
@@ -152,12 +154,12 @@
 			
 			<div id="result_2" class="result">
 				<h4>Результати виконання коду програми</h4>
-				<img src="res_task2_3.png">
+				<img src="res_task2_4.png">
 			</div>
 
 			<h4 id="conclusion">Висновки</h4>
 
-			<p>В лабораторній роботі №3 було реалізовано програму на мові Racket у середовищі Jdoodle, що знаходить розв'язки нелінійного рівняння методом перебору; також реалізовано програму, що обчислює інтеграл методами лівих прямокутників та трапецій. В другому завданні найбільшу точність показав метод трапецій. Далі метод правих, середніх та лівих відповідно. Результати виконання програми були перевірені за допомогою двох онлайн-калькуляторів(Wolfram alpha та Іntegral-calculator).</p>
+			<p>В лабораторній роботі №4 було опрацьовано тему роботу зі списками. Для знаходження повторень у списках було використано вбудовані функції equal?, а також remove-duplicates. У завданні №2 було програмно спроектовано процес отримання балів студентами за виконані завдання. Для додавання студентів у список було використано функцію map.</p>
 		</div>
 
 	</div>
