@@ -60,49 +60,41 @@
 			<div class="code">
 				<pre>
 					<code>
-						#lang racket/base
+						(define (counter lst) 
+						        (if (null? lst)
+						        '()
+						        (cons (cons (count_help (car lst) lst) (car lst))
+						              (counter (delete (car lst) lst)))))
 
-						(define (counter lst)
-						  (hash-map
-						   (foldl (lambda (e ht)
-						            (hash-update ht e add1 (lambda () 0)))
-						          (hash)
-						          lst)
-						   (lambda (k v) (list v k))))
-						   
-						(counter '(2 3 4 3 2 3 1 1 1 1 2 1 2))
+
+						(define (count_help x lst)
+						        (cond ((null? lst) 0)
+						        ((eq? x (car lst)) (+ 1 (count_help x (cdr lst))))
+						        (else   (count_help x (cdr lst)))))
+
+
+
+						(define delete
+						  (lambda (item list)
+						    (cond
+						      ((null? list) '())
+						    ((equal? item (car list)) (delete item (cdr list)))
+						    (else (cons (car list) (delete item (cdr list)))))))
 
 
 						(define (remove-duplicates list)
 						 (cond ((null? list) '())
-						 ((member? (car list) (cdr list))
+						 ((member (car list) (cdr list))
 						 (remove-duplicates (cdr list)))
 						 (else
 						 (cons (car list) (remove-duplicates (cdr list))))
 						 )
 						 )
-						 
-						 
-						# (define (counter lst) 
-						#         (if (null? lst)
-						#         '()
-						#         (cons (cons (count_help (car lst) lst) (car lst))
-						#               (counter (delete (car lst) lst)))))
 
+						(display (counter '(2 3 4 3 2 3 1 1 1 1 2 1 2 10 10 10) ))
 
-						# (define (count_help x lst)
-						#         (cond ((null? lst) 0)
-						#         ((eq? x (car lst)) (+ 1 (count_help x (cdr lst))))
-						#         (else   (count_help x (cdr lst)))))
-
-
-
-						# (define delete
-						#   (lambda (item list)
-						#     (cond
-						#       ((null? list) '())
-						#     ((equal? item (car list)) (delete item (cdr list)))
-						#     (else (cons (car list) (delete item (cdr list)))))))
+						(display "\n")
+						(display (remove-duplicates '(2 3 4 3 2 3 1 1 1 1 2 1 2 10 10 10 6 7 8)))
 					</code>
 				</pre>
 			</div>
@@ -127,12 +119,9 @@
 		
 						(define-struct student (name grade))
 					
-						(define student1 (make-student "Adrian" 95))
-						(define student2 (make-student "Brad" 65))
-						(define student3 (make-student "Charlie" 87))
+						
 						 
 						(define student* (list student1 student2 student3))
-
 
 						(define (all-we-need-is-love students)
 						  (cond
