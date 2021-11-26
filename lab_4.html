@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Функціональне програмування</title>
+	<link rel="stylesheet" href="index.css">
+</head>
+<body>
+	<header>
+		<a href="index.html" class="img_back"><img src="93634.png"  class="img"></a>
+		<h1><a href="index.html" class="head">Laboratory Works</a></h1>
+	</header>
+	<div class="lab_work">
+		<div class="lab_title">
+			<h3>Лабораторна робота 4. <br>
+				Програмування списків мовами функціонального програмування<br>
+				Варіант 19
+			
+			</h3>
+		</div>
+
+		<div class="lab_inner">
+			<div class="contents">
+				<h4>Зміст</h4>
+				<ul>
+					<li><a class="navigation" href="#target">Мета</a></li>
+					<li><a class="navigation" href="#ide">Вибір середовища та мови функціонального програмування</a></li>
+					<li><a class="navigation" href="#task_1">Завдання 1</a> 
+						<ul>
+							<li><a class="navigation" href="#code_1">Код програми</a></li>
+							<li><a class="navigation" href="#result_1">Результати роботи</a></li>
+						</ul>
+					</li>
+					<li><a class="navigation" href="#task_2">Завдання 2</a> 
+						<ul>
+							<li><a class="navigation" href="#code_2">Код програми</a></li>
+							<li><a class="navigation" href="#result_2">Результати роботи</a></li>
+						</ul>
+					</li>
+					<li><a class="navigation" href="#conclusion">Висновки</a></li>
+				</ul>
+			</div>
+
+			<p id="target"><b>Мета:</b>  Опанувати теоретичні основи використання списків функціональними мовами та розробити програми обробки списків</p>
+
+			<p id="ide"><b>Вибір середовища та мови функціонального програмування</b></p>
+
+			<p>Для виконання лабораторної роботи було обрано мову Racket. У якості IDE було обрано онлайн компілятор Jdoodle, через простоту та зручность.</p>
+		
+			<h4 id="task_1">Завдання 1</h4>
+
+			<p>
+				19.1. Створити числовий список, кількість елементів якого задана користувачем. Значення елементів в списку можуть повторюватися. Вивести список на екран. Виконати такі операції: <br>
+				a)	Визначити позицію першого та останнього входження заданого числа в список.  <br>
+				b)	Знайти елемент, значення якого повторюється найбільшу кількість разів.  <br>
+				c)	Видалити елементи, що повторюються, залишивши в списку значення, що входять по одному разу.  <br>
+ 			<br>
+			</p>
+			<h4 id="code_1">Код програми</h4>
+
+			<div class="code">
+				<pre>
+					<code>
+						#lang racket/base
+
+						(define (counter lst)
+						  (hash-map
+						   (foldl (lambda (e ht)
+						            (hash-update ht e add1 (lambda () 0)))
+						          (hash)
+						          lst)
+						   (lambda (k v) (list v k))))
+						   
+						(counter '(2 3 4 3 2 3 1 1 1 1 2 1 2))
+
+
+						(define (remove-duplicates list)
+						 (cond ((null? list) '())
+						 ((member? (car list) (cdr list))
+						 (remove-duplicates (cdr list)))
+						 (else
+						 (cons (car list) (remove-duplicates (cdr list))))
+						 )
+						 )
+						 
+						 
+						# (define (counter lst) 
+						#         (if (null? lst)
+						#         '()
+						#         (cons (cons (count_help (car lst) lst) (car lst))
+						#               (counter (delete (car lst) lst)))))
+
+
+						# (define (count_help x lst)
+						#         (cond ((null? lst) 0)
+						#         ((eq? x (car lst)) (+ 1 (count_help x (cdr lst))))
+						#         (else   (count_help x (cdr lst)))))
+
+
+
+						# (define delete
+						#   (lambda (item list)
+						#     (cond
+						#       ((null? list) '())
+						#     ((equal? item (car list)) (delete item (cdr list)))
+						#     (else (cons (car list) (delete item (cdr list)))))))
+					</code>
+				</pre>
+			</div>
+
+
+			<div id="result_1" class="result">
+				<h4>Результати виконання коду програми</h4>
+				<img src="res_task1_4.png">
+				<h4></h4>
+			</div>
+
+			<h4 id="task_2">Завдання 2</h4>
+
+			<p>
+				Написати код, що моделює процес навчання студентів ЗВО з певної дисципліни (за основу взяти свій власний досвід). Студент отримує перелік завдань для семестрового зарахування з певної дисципліни. Сформувати список з пар (ID_завдання . кількість балів, які можна отримати). На початку моделювання сумарна кількість балів дорівнює 0. В процесі навчання студент здає завдання, накопичує семестрові бали. Формується новий список пар (ID завдання . кількість балів, які студент отримав), модифікується перший список, з якого вилучаються виконані та зараховані завдання. Вивести на екран сценарій модифікації списків в процесі навчання в семестрі. <br>
+			</p>
+			<h4 id="code_2">Код програми</h4>
+
+			<div class="code">
+				<pre>
+					<code>
+		
+						(define-struct student (name grade))
+					
+						(define student1 (make-student "Adrian" 95))
+						(define student2 (make-student "Brad" 65))
+						(define student3 (make-student "Charlie" 87))
+						 
+						(define student* (list student1 student2 student3))
+
+
+						(define (all-we-need-is-love students)
+						  (cond
+						    [(empty? students) empty]
+						    [(cons? students)
+						     (cons (help-student-out (first students))
+						           (all-we-need-is-love (rest students)))]))
+						 
+
+						(define (help-student-out s)
+						  (make-student (student-name s) (add1 (student-grade s))))
+
+
+						(define (tough-love students)
+						  (cond
+						    [(empty? students) empty]
+						    [(cons? students)
+						     (cons (adjust-student-grade (first students) -20)
+						           (tough-love (rest students)))]))
+						 
+						
+						(define (adjust-student-grade s adjust-amt)
+						  (make-student (student-name s)
+						                (+ (student-grade s) adjust-amt)))
+					</code>
+				</pre>
+			</div>
+			
+			<div id="result_2" class="result">
+				<h4>Результати виконання коду програми</h4>
+				<img src="res_task2_3.png">
+			</div>
+
+			<h4 id="conclusion">Висновки</h4>
+
+			<p>В лабораторній роботі №3 було реалізовано програму на мові Racket у середовищі Jdoodle, що знаходить розв'язки нелінійного рівняння методом перебору; також реалізовано програму, що обчислює інтеграл методами лівих прямокутників та трапецій. В другому завданні найбільшу точність показав метод трапецій. Далі метод правих, середніх та лівих відповідно. Результати виконання програми були перевірені за допомогою двох онлайн-калькуляторів(Wolfram alpha та Іntegral-calculator).</p>
+		</div>
+
+	</div>
+
+</body>
+</html>
