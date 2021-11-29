@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Функціональне програмування</title>
+	<link rel="stylesheet" href="index.css">
+</head>
+<body>
+	<header>
+		<a href="index.html" class="img_back"><img src="93634.png"  class="img"></a>
+		<h1><a href="index.html" class="head">Laboratory Works</a></h1>
+	</header>
+	<div class="lab_work">
+		<div class="lab_title">
+			<h3>Лабораторна робота 6. <br>
+				Обробка структур типу векторів і матриць, стеків та черг мовами функціонального програмування
+				<br>
+				Варіант 19
+			
+			</h3>
+		</div>
+
+		<div class="lab_inner">
+			<div class="contents">
+				<h4>Зміст</h4>
+				<ul>
+					<li><a class="navigation" href="#target">Мета</a></li>
+					<li><a class="navigation" href="#ide">Вибір середовища та мови функціонального програмування</a></li>
+					<li><a class="navigation" href="#task_1">Завдання 1</a> 
+						<ul>
+							<li><a class="navigation" href="#code_1">Код програми</a></li>
+							<li><a class="navigation" href="#result_1">Результати роботи</a></li>
+						</ul>
+					</li>
+					<li><a class="navigation" href="#task_2">Завдання 2</a> 
+						<ul>
+							<li><a class="navigation" href="#code_2">Код програми</a></li>
+							<li><a class="navigation" href="#result_2">Результати роботи</a></li>
+						</ul>
+					</li>
+					<li><a class="navigation" href="#conclusion">Висновки</a></li>
+				</ul>
+			</div>
+
+			<p id="target"><b>Мета:</b>  Опанувати теоретичні основи обробки структур типу векторів і матриць, стеків та черг мовами функціонального програмування та розробити програми їх реалізації</p>
+
+			<p id="ide"><b>Вибір середовища та мови функціонального програмування</b></p>
+
+			<p>Для виконання лабораторної роботи було обрано мову Racket. У якості IDE було обрано онлайн компілятор Jdoodle, через простоту та зручность.</p>
+		
+			<h4 id="task_1">Завдання 1</h4>
+
+			<p>
+				Створити вектор чисел. Відсортувати вектор за алгоритмом Шелла (Shell sort) та здійснити пошук в масиві за алгоритмом рекурсивного лінійного пошуку
+ 			<br>
+			</p>
+			<h4 id="code_1">Код програми</h4>
+
+			<div class="code">
+				<pre>
+					<code>
+						# Сортування методом Шелла
+						(define (shell_sort < l)
+						  (match l
+						    ['() '()]
+						    [(cons x xs) 
+						     (let-values ([(xs-gte xs-lt) (partition (curry < x) xs)])
+						       (append (shell_sort < xs-lt) 
+						               (list x) 
+						               (shell_sort < xs-gte)))]))
+
+						(shell_sort < '(8 7 3 6 4 5 2))
+
+
+						# Функція знаходження елемента в масиві
+						(define (indexes_of1 x l)
+						  (let loop ((l l)
+						             (ol '())
+						             (idx 0))
+						    (cond
+						      [(empty? l) (reverse ol)]
+						      [(equal? (first l) x)
+						       (loop (rest l)
+						             (cons idx ol)
+						             (add1 idx))]
+						      [else
+						       (loop (rest l)
+						             ol
+						             (add1 idx))])))
+
+						(indexes_of1 '1 '(1 1 c 1 d e 1 f g))
+					</code>
+				</pre>
+			</div>
+
+
+			<div id="result_1" class="result">
+				<h4>Результати виконання коду програми</h4>
+				<img src="res_task1_4.png">
+				<h4></h4>
+			</div>
+
+			<h4 id="task_2">Завдання 2</h4>
+
+			<p>
+				Створити чергу з n латинських символів. Вибрати із черги голосні та приголосні символи і утворити з них слово. Надрукувати отримане слово. <br>
+			</p>
+			<h4 id="code_2">Код програми</h4>
+
+			<div class="code">
+				<pre>
+					<code>
+								
+						; Створюємо список голосних 
+						(define vovels (list #\a #\e #\i #\o #\u #\y))
+
+						; Перевірка, чи є введена літера голосною
+
+						(define (isVovel? v [vs vovels])
+
+						  (if (empty? vs)
+
+						    false
+
+						    (if (char=? v (first vs))
+
+						      true
+
+						      (isVovel? v (rest vs))
+
+						    )
+
+						  )
+
+						)
+
+						; Генеруємо абетку
+
+						(define (letterGenerator)
+
+						  (integer->char (+ 97 (random 26)))
+
+						)
+
+						; Видаляємо останній елемент
+
+						(define (removeLast struct)
+
+						  (cond
+
+						    [(empty? (rest struct)) empty]
+
+						    [(cons? struct) (cons (first struct) (removeLast (rest struct)))]
+
+						  )
+
+						)
+
+						; Створюємо стек
+
+						(define (makeStack)
+
+						  (list)
+
+						)
+
+						; Створюємо чергу
+
+						(define (makeQueue)
+
+						  (list)
+
+						)
+
+						; Перевірка, чи є черга пустою
+
+						(define (isQueueEmpty? q)
+
+						  (empty? q)
+
+						)
+
+						; Функція додавання елементу до стека
+
+						(define (stackPush s v)
+
+						  (let
+
+						    ((newS (append s (list v))))
+
+						    (display "Заповнення стека елементом: ")
+
+						    (displayln newS)
+
+						    newS
+
+						  )
+
+						)
+
+						; Функція додавання елемента до черги
+
+						(define (queuePush q v)
+
+						  (let
+
+						    ((newQ (cons v q)))
+
+						    (display "Заповнення черги елементом: ")
+
+						    (displayln newQ)
+
+						    newQ
+
+						  )
+
+						)
+
+						; вилучення з черги останнього елемента та видалення
+
+						; повертає список із двох значень: поточна черга та видалений елемент
+
+						(define (queuePop q)
+
+						  (if (isQueueEmpty? q)
+
+						    empty
+
+						    (let
+
+						      ((newq (removeLast q)))
+
+						      (display "Видалення з черги:  ")
+
+						      (displayln newq)
+
+						      (list newq (last q))
+
+						    )
+
+						  )
+
+						)
+
+						; генерація черги
+
+						(define (generateQueue q lengthQ [i 0])
+
+						  (if (< i lengthQ)
+
+						    (generateQueue (queuePush q (letterGenerator)) lengthQ (+ i 1))
+
+						    q
+
+						  )
+
+						)
+
+						; генерація стека
+
+						(define (generateStack s q)
+
+						  (if (isQueueEmpty? q)
+
+						    s
+
+						    (let
+
+						      ((resq (queuePop q)))
+
+						      (if (isVovel? (last resq))
+
+						        (generateStack (stackPush s (last resq)) (first resq))
+
+						        (generateStack s (first resq))
+
+						      )
+
+						    )
+
+						  )
+
+						)
+
+
+						(define (main)
+
+						  (let
+
+						    ((q (generateQueue (makeQueue) 10)))
+
+						    (let
+
+						      ((s (generateStack (makeStack) q)))
+
+						      (display "Стек лише із голосними літерами: ")
+
+						      (displayln s)
+
+						    )
+
+						  )
+
+						)
+
+						(main)
+					</code>
+				</pre>
+			</div>
+			
+			<div id="result_2" class="result">
+				<h4>Результати виконання коду програми</h4>
+				<img src="res_task2_4.png">
+			</div>
+
+			<h4 id="conclusion">Висновки</h4>
+
+			<p>В лабораторній роботі №6 було опрацьовано тему роботу зі струкрурами даних. Було реалізованро програму, що здійснює сортування масиву методом Шелла. Також було реалізовано програму, що здійснює пошук латинських голосних літер із заданого масиву та додає їх до окремого стеку.</p>
+		</div>
+
+	</div>
+
+</body>
+</html>
